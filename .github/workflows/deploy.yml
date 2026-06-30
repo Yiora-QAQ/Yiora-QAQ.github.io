@@ -1,32 +1,24 @@
 name: Hexo Deploy
-
 on:
   push:
     branches: [ main ]
-
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code
+      - name: 拉取源码
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - name: 配置Node20
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Hexo
+      - name: 安装Hexo依赖
         run: npm install hexo-cli -g && npm install
-
-      # 云端自动拉取Next主题，不用本地上传themes文件夹
-      - name: Clone Next Theme
-        run: git clone https://github.com/next-theme/hexo-theme-next.git themes/next
-
-      - name: Generate static pages
-        run: hexo clean && hexo g
-
-      - name: Deploy to GitHub Pages
+      - name: 镜像加速拉取Next主题
+        run: git clone https://mirror.ghproxy.com/https://github.com/next-theme/hexo-theme-next.git themes/next
+      - name: 生成静态页面
+        run: hexo clean && hexo generate
+      - name: 自动部署GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
