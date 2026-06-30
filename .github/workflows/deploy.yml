@@ -14,8 +14,8 @@ jobs:
           node-version: 20
       - name: 安装Hexo依赖
         run: npm install hexo-cli -g && npm install
-      - name: 镜像加速拉取Next主题
-        run: git clone https://mirror.ghproxy.com/https://github.com/next-theme/hexo-theme-next.git themes/next
+      - name: 镜像克隆Next主题
+        run: git clone --depth=1 https://mirror.ghproxy.com/https://github.com/next-theme/hexo-theme-next.git themes/next
       - name: 生成静态页面
         run: hexo clean && hexo generate
       - name: 自动部署GitHub Pages
