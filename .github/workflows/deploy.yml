@@ -8,17 +8,19 @@ jobs:
     steps:
       - name: 拉取源码
         uses: actions/checkout@v4
-      - name: 配置Node20
+
+      - name: 配置Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - name: 安装Hexo依赖
         run: npm install hexo-cli -g && npm install
-      - name: 镜像克隆Next主题
-        run: git clone --depth=1 https://mirror.ghproxy.com/https://github.com/next-theme/hexo-theme-next.git themes/next
+
       - name: 生成静态页面
         run: hexo clean && hexo generate
-      - name: 自动部署GitHub Pages
+
+      - name: 部署Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
